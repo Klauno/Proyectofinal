@@ -5,6 +5,8 @@ import techlab.Proyectofinal.modelo.Producto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class ProductRepository {
@@ -26,22 +28,16 @@ public class ProductRepository {
     }
 
     public List<Producto> buscarProducto(String busqueda) {
-        ArrayList<Producto> encontrados = new ArrayList<>();
-        for (Producto p : productos) {
-            if (p.contieneNombre(busqueda)) {
-                encontrados.add(p);
-            }
-        }
-        return encontrados;
+        return productos.stream()
+                .filter(p -> p.contieneNombre(busqueda))
+                .collect(Collectors.toList());
     }
 
-    public Producto buscarPorId(Long id) {
-        for (Producto p : productos) {
-            if (p.getId().equals(id)) {
-                return p;
-            }
-        }
-        return null;
+    // Cambiado para retornar Optional en lugar de null
+    public Optional<Producto> buscarPorId(Long id) {
+        return productos.stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst();
     }
 
     public Producto eliminarProducto(Producto producto) {

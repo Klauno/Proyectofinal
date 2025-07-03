@@ -6,8 +6,11 @@ import java.util.List;
 
 public class Pedido {
     private static int contadorPedidos = 1;
+    // ID único autoincremental para identificar el pedido
     private int idPedido;
+    // Lista de líneas de pedido (cada línea con producto y cantidad)
     private List<LineaPedido> lineas;
+    // Fecha y hora en que se creó el pedido
     private LocalDateTime fecha;
 
     public Pedido() {
