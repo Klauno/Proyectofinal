@@ -1,7 +1,11 @@
 package techlab.Proyectofinal.exception;
 
+/**
+ * Excepción para indicar que un producto no fue encontrado.
+ */
 public class ProductNotFoundException extends RuntimeException {
-    public ProductNotFoundException(String searchTerm) {
-        super("No se encontró ningún producto con el término: " + searchTerm);
+
+    public ProductNotFoundException(String mensaje) {
+        super(mensaje);
     }
 }

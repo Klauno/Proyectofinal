@@ -5,9 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import techlab.Proyectofinal.dto.ProductResponseDTO;
 import techlab.Proyectofinal.modelo.Producto;
-import techlab.Proyectofinal.exception.ProductNotFoundException;
 import techlab.Proyectofinal.servicio.GestionProductosPedidos;
-
 import java.util.List;
 
 @RestController
@@ -32,15 +30,14 @@ public class ProductoController {
 
     @GetMapping("/find")
     public ResponseEntity<List<Producto>> buscarProductos(@RequestParam String nombreBusqueda){
-        try {
-            return ResponseEntity.ok(this.gestion.buscarProducto(nombreBusqueda));
-        } catch (ProductNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        // Ya no se maneja la excepción aquí, se delega al manejo global
+        List<Producto> productosEncontrados = this.gestion.buscarProducto(nombreBusqueda);
+        return ResponseEntity.ok(productosEncontrados);
     }
 
     @GetMapping("/{id}")
     public Producto obtenerProductoPorId(@PathVariable Long id){
+        // Lanza ProductNotFoundException si no encuentra el producto
         return this.gestion.buscarProductoPorId(id);
     }
 
