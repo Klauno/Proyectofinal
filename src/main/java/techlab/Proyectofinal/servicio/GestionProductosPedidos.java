@@ -51,12 +51,10 @@ public class GestionProductosPedidos {
         return encontrados;
     }
 
+    // Metodo corregido para manejar Optional correctamente
     public Producto buscarProductoPorId(Long id) {
-        Producto p = productRepository.buscarPorId(id);
-        if (p == null) {
-            throw new ProductNotFoundException("ID: " + id);
-        }
-        return p;
+        return productRepository.buscarPorId(id)
+                .orElseThrow(() -> new ProductNotFoundException("Producto con ID: " + id + " no encontrado"));
     }
 
     public Producto editarProducto(Long id, Double nuevoPrecio) {
@@ -104,10 +102,7 @@ public class GestionProductosPedidos {
     }
 
     public Pedido buscarPedidoPorId(int id) {
-        Pedido pedido = pedidoRepository.buscarPorId(id);
-        if (pedido == null) {
-            throw new ProductNotFoundException("Pedido ID: " + id);
-        }
-        return pedido;
+        return pedidoRepository.buscarPorId(id)
+                .orElseThrow(() -> new ProductNotFoundException("Pedido con ID: " + id + " no encontrado"));
     }
 }

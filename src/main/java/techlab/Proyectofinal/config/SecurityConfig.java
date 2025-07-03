@@ -10,8 +10,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable() // Desactiva CSRF para facilitar pruebas
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()); // Permite todas las peticiones sin autenticación
+        http
+                .csrf(csrf -> csrf.disable())  // Nueva forma de desactivar CSRF en Spring Security 6.1+
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
         return http.build();
     }
 }
