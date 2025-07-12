@@ -9,7 +9,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.5.3</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 
 	<groupId>techlab</groupId>
@@ -17,7 +17,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Proyectofinal</name>
 	<description>Proyecto final Spring Boot Techlab</description>
-	<url>https://github.com/tu_usuario/Proyectofinal</url>
+	<url>https://github.com/Klauno/Proyectofinal</url>
 
 	<licenses>
 		<license>
@@ -29,18 +29,18 @@
 
 	<developers>
 		<developer>
-			<id>tu_usuario</id>
-			<name>Tu Nombre</name>
-			<email>tu.email@ejemplo.com</email>
+			<id>Klauno</id>
+			<name>Claudia Oliverio</name>
+			<email>oliverioclau@gmail.com</email>
 			<organization>Techlab</organization>
 			<organizationUrl>https://techlab.com</organizationUrl>
 		</developer>
 	</developers>
 
 	<scm>
-		<connection>scm:git:git@github.com:tu_usuario/Proyectofinal.git</connection>
-		<developerConnection>scm:git:git@github.com:tu_usuario/Proyectofinal.git</developerConnection>
-		<url>https://github.com/tu_usuario/Proyectofinal</url>
+		<connection>scm:git:git@github.com:Klauno/Proyectofinal.git</connection>
+		<developerConnection>scm:git:git@github.com:Klauno/Proyectofinal.git</developerConnection>
+		<url>https://github.com/klauno/Proyectofinal</url>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -55,6 +55,26 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<!-- Spring Data JPA -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!-- H2 Database en memoria -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Driver MySQL -->
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
 		<!-- Dependencias para pruebas -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -62,11 +82,14 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
+
+		<!-- JSON Web Token (JWT) -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
@@ -80,11 +103,18 @@
 		</dependency>
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-jackson</artifactId> <!-- o jjwt-gson si prefieres Gson -->
+			<artifactId>jjwt-jackson</artifactId>
 			<version>0.12.6</version>
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- Lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.30</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -95,7 +125,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-			<!-- Plugin para compilar con debug activado -->
+			<!-- Plugin para compilar con soporte de procesamiento de anotaciones -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -103,6 +133,13 @@
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>1.18.30</version>
+						</path>
+					</annotationProcessorPaths>
 					<debug>true</debug>
 				</configuration>
 			</plugin>

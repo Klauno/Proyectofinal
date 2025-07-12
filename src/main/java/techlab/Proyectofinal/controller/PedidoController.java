@@ -42,4 +42,13 @@ public class PedidoController {
         Pedido pedido = gestion.buscarPedidoPorId(id);
         return ResponseEntity.ok(pedido);
     }
+
+    @PutMapping("/{id}/estado")
+    public ResponseEntity<Pedido> actualizarEstado(@PathVariable int id, @RequestParam String estado) {
+        Pedido pedido = gestion.buscarPedidoPorId(id);
+        pedido.setEstado(estado);
+        Pedido pedidoActualizado = gestion.guardarPedido(pedido);
+        return ResponseEntity.ok(pedido);
+    }
+
 }

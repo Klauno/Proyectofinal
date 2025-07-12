@@ -1,59 +1,57 @@
 package techlab.Proyectofinal.modelo;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
 public class Producto {
-    // ID único autoincremental para identificar cada producto
-    private static long contadorId = 1;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nombre;
     private String descripcion;
     private double precio;
     private String categoria;
     private String imagenUrl;
     private int stock;
+    private int cantidadAComprar;
 
-    public Producto() {
-        this.id = contadorId++;
-    }
-
-    public Producto(String nombre, String descripcion, double precio, String categoria, String imagenUrl, int stock) {
-        this.id = contadorId++;
+    public Producto(String nombre, String descripcion, double precio, String categoria, String imagenUrl, int stock, int cantidadAComprar) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         setPrecio(precio);
         this.categoria = categoria;
         this.imagenUrl = imagenUrl;
         setStock(stock);
+        this.cantidadAComprar = cantidadAComprar;
     }
 
-    // Getters y setters
+    public Producto(String nombre, String descripcion, double precio, String categoria, String imagenUrl, int stock) {
+        this(nombre, descripcion, precio, categoria, imagenUrl, stock, 0);
+    }
 
-    public Long getId() { return id; }
-
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
-
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-
-    public double getPrecio() { return precio; }
+    // Validación personalizada en setters
     public void setPrecio(double precio) {
         if (precio < 0) throw new IllegalArgumentException("El precio no puede ser negativo.");
         this.precio = precio;
     }
 
-    public String getCategoria() { return categoria; }
-    public void setCategoria(String categoria) { this.categoria = categoria; }
-
-    public String getImagenUrl() { return imagenUrl; }
-    public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
-
-    public int getStock() { return stock; }
     public void setStock(int stock) {
         if (stock < 0) throw new IllegalArgumentException("El stock no puede ser negativo.");
         this.stock = stock;
     }
 
-    // Metodo para verificar si el nombre contiene un texto de búsqueda (para búsquedas)
+    // Método para búsquedas por nombre
     public boolean contieneNombre(String busqueda) {
         return nombre != null && nombre.toLowerCase().contains(busqueda.toLowerCase());
     }

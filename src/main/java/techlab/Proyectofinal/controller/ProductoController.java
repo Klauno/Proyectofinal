@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import techlab.Proyectofinal.dto.ProductResponseDTO;
 import techlab.Proyectofinal.modelo.Producto;
 import techlab.Proyectofinal.servicio.GestionProductosPedidos;
+
 import java.util.List;
 
 @RestController
@@ -29,25 +30,29 @@ public class ProductoController {
     }
 
     @GetMapping("/find")
-    public ResponseEntity<List<Producto>> buscarProductos(@RequestParam String nombreBusqueda){
-        // Ya no se maneja la excepción aquí, se delega al manejo global
-        List<Producto> productosEncontrados = this.gestion.buscarProducto(nombreBusqueda);
-        return ResponseEntity.ok(productosEncontrados);
+    public ResponseEntity<List<Producto>> buscarProductosPorNombre(@RequestParam String nombre){
+        return ResponseEntity.ok(this.gestion.buscarProductoPorNombre(nombre));
     }
 
     @GetMapping("/{id}")
     public Producto obtenerProductoPorId(@PathVariable Long id){
-        // Lanza ProductNotFoundException si no encuentra el producto
         return this.gestion.buscarProductoPorId(id);
     }
 
     @PutMapping("/{id}")
-    public Producto editarPrecioProducto(@PathVariable Long id, @RequestParam Double nuevoPrecio){
-        return this.gestion.editarProducto(id, nuevoPrecio);
+    public Producto editarProducto(@PathVariable Long id,
+                                   @RequestParam(required = false) Double nuevoPrecio,
+                                   @RequestParam(required = false) Integer nuevoStock){
+        return this.gestion.editarProducto(id, nuevoPrecio, nuevoStock);
     }
 
     @DeleteMapping("/{id}")
     public Producto eliminarProducto(@PathVariable Long id){
         return this.gestion.eliminarProducto(id);
+    }
+
+    @GetMapping("/stock-bajo")
+    public List<Producto> productosConStockBajo(@RequestParam(defaultValue = "5") int min) {
+        return gestion.productosConStockBajo(min);
     }
 }

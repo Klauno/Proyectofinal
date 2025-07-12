@@ -1,29 +1,40 @@
 package techlab.Proyectofinal.modelo;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
 public class Pedido {
-    private static int contadorPedidos = 1;
-    // ID único autoincremental para identificar el pedido
-    private int idPedido;
-    // Lista de líneas de pedido (cada línea con producto y cantidad)
-    private List<LineaPedido> lineas;
-    // Fecha y hora en que se creó el pedido
-    private LocalDateTime fecha;
 
-    public Pedido() {
-        this.idPedido = contadorPedidos++;
-        this.lineas = new ArrayList<>();
-        this.fecha = LocalDateTime.now();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idPedido;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "pedido_id")
+    private List<LineaPedido> lineas = new ArrayList<>();
+
+    private LocalDateTime fecha = LocalDateTime.now();
+
+    private String estado = "pendiente"; // "pendiente", "confirmado", "enviado", "entregado", "cancelado"
+
+    @ManyToOne
+    private Usuario usuario; // Relación con usuario
+
+    // Método para agregar una línea al pedido
+    public void agregarLinea(LineaPedido linea) {
+        lineas.add(linea);
     }
 
-    public int getIdPedido() { return idPedido; }
-    public List<LineaPedido> getLineas() { return lineas; }
-    public void agregarLinea(LineaPedido linea) { lineas.add(linea); }
-    public LocalDateTime getFecha() { return fecha; }
-
+    // Método para calcular el total del pedido
     public double calcularTotal() {
         return lineas.stream()
                 .mapToDouble(LineaPedido::getCostoLinea)
