@@ -1,5 +1,6 @@
 package techlab.Proyectofinal.modelo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +24,8 @@ public class Producto {
     private double precio;
     private String categoria;
     private String imagenUrl;
+
+    @JsonProperty("stock")
     private int stock;
     private int cantidadAComprar;
 
@@ -51,7 +54,7 @@ public class Producto {
         this.stock = stock;
     }
 
-    // Método para búsquedas por nombre
+    // Metodo para búsquedas por nombre
     public boolean contieneNombre(String busqueda) {
         return nombre != null && nombre.toLowerCase().contains(busqueda.toLowerCase());
     }

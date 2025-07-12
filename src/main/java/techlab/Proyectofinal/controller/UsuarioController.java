@@ -1,5 +1,6 @@
 package techlab.Proyectofinal.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +20,9 @@ public class UsuarioController {
         this.gestion = gestion;
     }
 
-    // Endpoint para registrar un nuevo usuario
+    // Endpoint para registrar un nuevo usuario con validación
     @PostMapping("/")
-    public ResponseEntity<Usuario> registrarUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> registrarUsuario(@Valid @RequestBody Usuario usuario) {
         Usuario nuevoUsuario = gestion.guardarUsuario(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
     }

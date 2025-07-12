@@ -1,6 +1,8 @@
 package techlab.Proyectofinal.modelo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -17,7 +19,12 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    @NotBlank(message = "El nombre no puede estar vacío")
     private String nombre;
+
+    @NotBlank(message = "El email no puede estar vacío")
+    @Email(message = "El email debe tener un formato válido")
     private String email;
 
     @OneToMany(mappedBy = "usuario")

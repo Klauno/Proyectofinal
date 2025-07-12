@@ -27,11 +27,14 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain appSecurityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> {}) // Habilita CORS con configuración por defecto o global
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/producto/**", "/pedido/**", "/categoria/**", "/usuario/**").permitAll() // Permitir acceso libre a API (ajustar según necesidad)
-                        .anyRequest().authenticated() // Otras rutas requieren autenticación
+                        .requestMatchers("/producto/**", "/pedido/**", "/categoria/**", "/usuario/**").permitAll()
+                        .anyRequest().authenticated()
                 )
-                .csrf(csrf -> csrf.disable()); // Deshabilitar CSRF para facilitar pruebas (en producción ajustar)
+                .csrf(csrf -> csrf.disable());
+
         return http.build();
     }
+
 }
