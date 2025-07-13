@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import techlab.Proyectofinal.dto.ProductResponseDTO;
-import techlab.Proyectofinal.modelo.Producto;
+import techlab.Proyectofinal.entity.Producto;
 import techlab.Proyectofinal.servicio.GestionProductosPedidos;
 
 import java.util.List;

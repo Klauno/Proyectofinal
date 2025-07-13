@@ -1,4 +1,4 @@
-package techlab.Proyectofinal.modelo;
+package techlab.Proyectofinal.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,16 +25,7 @@ public class LineaPedido {
         this.cantidad = cantidad;
     }
 
-    /**
-     * Calcula el costo total de esta línea de pedido,
-     * multiplicando el precio unitario del producto por la cantidad.
-     *
-     * @return costo total de la línea de pedido
-     */
     public double getCostoLinea() {
-        if (producto == null) {
-            return 0;
-        }
         return producto.getPrecio() * cantidad;
     }
 }

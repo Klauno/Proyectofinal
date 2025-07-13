@@ -1,15 +1,12 @@
 package techlab.Proyectofinal.servicio;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import techlab.Proyectofinal.dto.LineaPedidoDTO;
 import techlab.Proyectofinal.dto.ProductResponseDTO;
-import techlab.Proyectofinal.exception.ProductNotFoundException;
-import techlab.Proyectofinal.exception.StockInsuficienteException;
-import techlab.Proyectofinal.exception.UsuarioNotFoundException;
-import techlab.Proyectofinal.modelo.*;
+import techlab.Proyectofinal.entity.*;
+import techlab.Proyectofinal.exception.*;
 import techlab.Proyectofinal.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import techlab.Proyectofinal.repository.PedidoRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,19 +15,15 @@ import java.util.stream.Collectors;
 public class GestionProductosPedidos {
 
     private final ProductoRepository productoRepository;
-    private final ProductoMemoriaRepository productoMemoriaRepository;
     private final PedidoRepository pedidoRepository;
     private final CategoriaRepository categoriaRepository;
     private final UsuarioRepository usuarioRepository;
 
-    @Autowired
     public GestionProductosPedidos(ProductoRepository productoRepository,
-                                   ProductoMemoriaRepository productoMemoriaRepository,
                                    PedidoRepository pedidoRepository,
                                    CategoriaRepository categoriaRepository,
                                    UsuarioRepository usuarioRepository) {
         this.productoRepository = productoRepository;
-        this.productoMemoriaRepository = productoMemoriaRepository;
         this.pedidoRepository = pedidoRepository;
         this.categoriaRepository = categoriaRepository;
         this.usuarioRepository = usuarioRepository;
@@ -103,6 +96,7 @@ public class GestionProductosPedidos {
         return pedido;
     }
 
+    @Transactional
     public Pedido confirmarPedido(Pedido pedido) {
         for (LineaPedido linea : pedido.getLineas()) {
             Producto producto = linea.getProducto();
@@ -128,6 +122,14 @@ public class GestionProductosPedidos {
                 .orElseThrow(() -> new ProductNotFoundException("Pedido con ID " + id + " no encontrado"));
     }
 
+    public Pedido guardarPedido(Pedido pedido) {
+        return pedidoRepository.save(pedido);
+    }
+
+    public void eliminarPedido(Integer idPedido) {
+        pedidoRepository.deleteById(idPedido);
+    }
+
     // Categorías
 
     public Categoria agregarCategoria(Categoria categoria) {
@@ -146,6 +148,20 @@ public class GestionProductosPedidos {
         return usuario.getPedidos();
     }
 
+    public Usuario guardarUsuario(Usuario usuario) {
+        if (usuario.getNombre() == null || usuario.getNombre().isBlank()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacío.");
+        }
+        if (usuario.getEmail() == null || usuario.getEmail().isBlank()) {
+            throw new IllegalArgumentException("El email no puede estar vacío.");
+        }
+        return usuarioRepository.save(usuario);
+    }
+
+    public UsuarioRepository getUsuarioRepository() {
+        return usuarioRepository;
+    }
+
     // Productos con stock bajo
 
     public List<Producto> productosConStockBajo(int min) {
@@ -154,19 +170,4 @@ public class GestionProductosPedidos {
                 .filter(p -> p.getStock() <= min)
                 .collect(Collectors.toList());
     }
-
-    public Usuario guardarUsuario(Usuario usuario) {
-        if (usuario.getNombre() == null || usuario.getNombre().isBlank()) {
-            throw new IllegalArgumentException("El nombre no puede estar vacío.");
-        }
-        if (usuario.getEmail() == null || usuario.getEmail().isBlank()) {
-            throw new IllegalArgumentException("El email no puede estar vacío.");
-        }
-        // Podés agregar validación de formato de email aquí
-        return usuarioRepository.save(usuario);
-    }
-    public Pedido guardarPedido(Pedido pedido) {
-        return pedidoRepository.save(pedido);
-    }
-
 }

@@ -1,7 +1,7 @@
 package techlab.Proyectofinal.repository;
 
 import org.springframework.stereotype.Repository;
-import techlab.Proyectofinal.modelo.Producto;
+import techlab.Proyectofinal.entity.Producto;
 
 import java.util.ArrayList;
 import java.util.List;

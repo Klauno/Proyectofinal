@@ -1,6 +1,6 @@
 package techlab.Proyectofinal.dto;
 
-import techlab.Proyectofinal.modelo.Pedido;
+import techlab.Proyectofinal.entity.Pedido;
 
 public class PedidoResponseDTO {
     private String message;

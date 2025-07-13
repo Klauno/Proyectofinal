@@ -1,4 +1,4 @@
-package techlab.Proyectofinal.config;
+package techlab.Proyectofinal.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,9 +7,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import techlab.Proyectofinal.dto.ErrorResponseDTO;
-import techlab.Proyectofinal.exception.ProductNotFoundException;
-import techlab.Proyectofinal.exception.StockInsuficienteException;
-import techlab.Proyectofinal.exception.UsuarioNotFoundException;
 
 import java.time.LocalDateTime;
 

@@ -1,12 +1,13 @@
-package techlab.Proyectofinal.modelo;
+package techlab.Proyectofinal.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,17 +25,15 @@ public class Pedido {
 
     private LocalDateTime fecha = LocalDateTime.now();
 
-    private String estado = "pendiente"; // "pendiente", "confirmado", "enviado", "entregado", "cancelado"
+    private String estado = "pendiente";
 
     @ManyToOne
-    private Usuario usuario; // Relación con usuario
+    private Usuario usuario;
 
-    // Método para agregar una línea al pedido
     public void agregarLinea(LineaPedido linea) {
         lineas.add(linea);
     }
 
-    // Método para calcular el total del pedido
     public double calcularTotal() {
         return lineas.stream()
                 .mapToDouble(LineaPedido::getCostoLinea)
