@@ -27,7 +27,19 @@ public class SecurityConfig {
         http
                 .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/producto/**", "/pedido/**", "/categoria/**", "/usuario/**").permitAll()
+                        // Permitir acceso público a frontend estático y recursos
+                        .requestMatchers(
+                                "/index.html",
+                                "/pages/**",
+                                "/css/**",
+                                "/js/**",
+                                "/imagenes/**",
+                                "/producto/**",
+                                "/pedido/**",
+                                "/categoria/**",
+                                "/usuario/**"
+                        ).permitAll()
+                        // Cualquier otra petición requiere autenticación
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable());
